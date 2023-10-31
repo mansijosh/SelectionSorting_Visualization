@@ -6,11 +6,11 @@ class SelectionSortVisualization extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      array: [10, 23, 6, 34, 12],
+      array: [10,60,20,40,54,32,23,6,30,34,66,12,45,18,50,75,48],
       currentIndex: 0,
       isSorting: false,
       stepDescription: '',
-      delay: 2000,
+      delay: 3000,
       isPaused: false,
     };
   }
@@ -27,7 +27,7 @@ class SelectionSortVisualization extends Component {
 
   restartSorting = () => {
     this.setState({
-      array: [10, 23, 6, 34, 12],
+      array:  [10,60,20,40,54,32,23,6,30,34,66,12,45,18,50,75,48],
       currentIndex: 0,
       isSorting: false,
       isPaused: false,
