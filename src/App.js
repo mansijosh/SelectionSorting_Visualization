@@ -113,7 +113,7 @@ class SelectionSortVisualization extends Component {
               {value}
             </div>
           ))}
-          <div style={{ width: '900px', height: '450px' }}>
+          <div style={{ width: '100px', height: '450px' }}>
             <ApexCharts options={chartOptions} series={chartSeries} type="bar" />
           </div>
         </div>
