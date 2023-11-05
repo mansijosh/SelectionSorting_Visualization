@@ -6,39 +6,48 @@ class SelectionSortVisualization extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      array: [10,60,20,40,54,32,23,6,30,34,66,12,45,18,50,75,48],
+      array: [10, 60, 20, 40, 54, 32, 23, 6, 30, 34, 66, 12, 45, 18, 50, 75, 48],
       currentIndex: 0,
       isSorting: false,
       stepDescription: '',
-      delay: 3000,
+      delay: 3200,
       isPaused: false,
+      customColors: new Array(17).fill('#2E93fA'), // Blue color for all elements
     };
   }
 
   startSorting = () => {
     if (!this.state.isSorting) {
-      this.setState({ isSorting: true, currentIndex: 0, isPaused: false }, () => {
-        this.selectionSort();
-      });
+      this.setState(
+        {
+          isSorting: true,
+          currentIndex: 0,
+          isPaused: false,
+        },
+        () => {
+          this.selectionSort();
+        }
+      );
     }
   };
 
- 
-
   restartSorting = () => {
     this.setState({
-      array:  [10,60,20,40,54,32,23,6,30,34,66,12,45,18,50,75,48],
+      array: [10, 60, 20, 40, 54, 32, 23, 6, 30, 34, 66, 12, 45, 18, 50, 75, 48],
       currentIndex: 0,
       isSorting: false,
       isPaused: false,
+      customColors: new Array(17).fill('#2E93fA'), // Reset colors to blue
     });
   };
 
   selectionSort = () => {
     if (this.state.isPaused) return;
-  
+
     const array = [...this.state.array];
     const currentIndex = this.state.currentIndex;
+    const customColors = [...this.state.customColors];
+
     if (currentIndex < array.length - 1) {
       let minIndex = currentIndex;
       for (let j = currentIndex + 1; j < array.length; j++) {
@@ -51,14 +60,22 @@ class SelectionSortVisualization extends Component {
         const temp = array[currentIndex];
         array[currentIndex] = array[minIndex];
         array[minIndex] = temp;
-  
+
+        // Change the colors of swapping elements
+        customColors[currentIndex] = 'green';
+        customColors[minIndex] = 'green';
+
         this.setState({
           array: array,
           currentIndex: currentIndex + 1,
           stepDescription: `Swapping ${array[currentIndex]} and ${array[minIndex]}`,
+          customColors: customColors,
         });
-  
+
         setTimeout(() => {
+          // Reset the colors to blue
+          customColors[currentIndex] = '#2E93fA';
+          customColors[minIndex] = '#2E93fA';
           this.selectionSort();
         }, this.state.delay);
       }
@@ -66,10 +83,9 @@ class SelectionSortVisualization extends Component {
       this.setState({ isSorting: false });
     }
   };
-  
 
   render() {
-    const { array, currentIndex, isSorting, stepDescription, isPaused } = this.state;
+    const { array, currentIndex, isSorting, stepDescription, isPaused, customColors } = this.state;
 
     const chartOptions = {
       chart: {
@@ -84,7 +100,11 @@ class SelectionSortVisualization extends Component {
     const chartSeries = [
       {
         name: 'Array',
-        data: array,
+        data: array.map((value, index) => ({
+          x: index + 1,
+          y: value,
+          fillColor: customColors[index],
+        })),
       },
     ];
 
@@ -95,7 +115,7 @@ class SelectionSortVisualization extends Component {
           <button onClick={this.startSorting} disabled={isSorting}>
             Start Sorting
           </button>
-          
+
           <button onClick={this.restartSorting} disabled={isSorting}>
             Restart
           </button>
@@ -118,7 +138,7 @@ class SelectionSortVisualization extends Component {
           </div>
         </div>
         <div className="description-container">
-          <p className="step-description">{stepDescription}</p>
+          <p className="stepDescription">{stepDescription}</p>
         </div>
       </div>
     );
