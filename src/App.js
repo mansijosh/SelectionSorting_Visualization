@@ -62,8 +62,8 @@ class SelectionSortVisualization extends Component {
         array[minIndex] = temp;
 
         // Change the colors of swapping elements
-        customColors[currentIndex] = 'green';
-        customColors[minIndex] = 'green';
+        customColors[currentIndex] = '#54e869';
+        customColors[minIndex] = '#54e869';
 
         this.setState({
           array: array,
